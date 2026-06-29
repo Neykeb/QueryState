@@ -12,7 +12,7 @@ export function Formular() {
   })
 
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -21,29 +21,31 @@ export function Formular() {
     }));
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     
     const nextErrors = {
-    username: "",
-    email: "",
-  }
+      username: "",
+      email: "",
+    }
 
-  if (nextErrors ) {
-    nextErrors.username = "Bitte gib einen Benutzernamen ein."
-  }
+    if (!formData.username) {
+      nextErrors.username = "Bitte gib einen Benutzernamen ein."
+    }
 
-  if (nextErrors) {
-    nextErrors.email = "Bitte gib eine E-Mail-Adresse ein."
-  }
+    if (!formData.email) {
+      nextErrors.email = "Bitte gib eine E-Mail-Adresse ein."
+    }
 
-  return nextErrors
+    setError(nextErrors)
   }
 
 
   return (
     <>
       <form onSubmit={handleSubmit}>
+        {error.username && <p>{error.username}</p>}
+        {error.email && <p>{error.email}</p>}
         <input
           type="text"
           name="username" 
