@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router';
+import { Formular } from '../components/formular';
+
 export const Route = createFileRoute('/')({
   component: RouteComponent,
 })
@@ -32,6 +34,10 @@ function RouteComponent() {
           </div>
         </div>
       </section>
+
+      <Formular />
+
+      
     </>
   );
 }
