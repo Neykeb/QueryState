@@ -34,10 +34,11 @@ function RouteComponent() {
           </div>
         </div>
       </section>
-
       <Formular />
 
-      
+
+
+     
     </>
   );
 }

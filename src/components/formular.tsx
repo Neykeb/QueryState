@@ -1,45 +1,41 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { FormularContext } from "../context/formularContext";
+
 
 export function Formular() {
-  const [formData, setFormData] = useState({
+  // Globale Daten abholen
+  const context = useContext(FormularContext);
+
+  if (!context) {
+    return <p>Fehler: FormularProvider nicht gefunden!</p>;
+  }
+
+  const { formData, handleChange } = context;
+
+  // Error-State bleibt lokal (nur diese Komponente)
+  const [error, setError] = useState({
     username: "",
     email: "",
   });
 
-  const [error, setError] = useState({
-    username: '',
-    email: ''
-  })
-
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    
+
     const nextErrors = {
       username: "",
       email: "",
-    }
+    };
 
     if (!formData.username) {
-      nextErrors.username = "Bitte gib einen Benutzernamen ein."
+      nextErrors.username = "Bitte gib einen Benutzernamen ein.";
     }
 
     if (!formData.email) {
-      nextErrors.email = "Bitte gib eine E-Mail-Adresse ein."
+      nextErrors.email = "Bitte gib eine E-Mail-Adresse ein.";
     }
 
-    setError(nextErrors)
+    setError(nextErrors);
   }
-
 
   return (
     <>
@@ -48,8 +44,7 @@ export function Formular() {
         {error.email && <p>{error.email}</p>}
         <input
           type="text"
-          name="username" 
-          // name="username": Das ist der Schlüssel, den handleChange über e.target.name ausliest. Damit weiß der Handler, welches Feld sich geändert hat.
+          name="username"
           placeholder="Username"
           onChange={handleChange}
           value={formData.username}
@@ -61,7 +56,6 @@ export function Formular() {
           onChange={handleChange}
           value={formData.email}
         />
-
         <button>abschicken</button>
       </form>
     </>
